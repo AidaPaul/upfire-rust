@@ -62,7 +62,7 @@ impl Component for Atmosphere {
 #[derive(Debug)]
 pub struct Resource {
     resource_type: i8,
-    amount: u32,
+    amount: f64,
     difficulty: i8,
 }
 
@@ -72,7 +72,7 @@ impl Component for Resource {
 
 #[derive(Debug)]
 pub struct Mine {
-        efficiency: u32,
+        efficiency: f64,
         input_type: i8,
         output_type: i8,
         capacity: u32,
@@ -85,7 +85,7 @@ impl Component for Mine {
 
 #[derive(Debug)]
 pub struct AutomatedMine {
-        efficiency: u32,
+        efficiency: f64,
         input_type: i8,
         output_type: i8,
 }
@@ -155,6 +155,16 @@ impl<'a> System<'a> for MiningSystem {
 
     fn run(&mut self, (entities, mut mine, mut resource): Self::SystemData) {
         for (e, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
+            if resource.resource_type != mine.input_type {break};
+            if resource.amount == 0.00 {break};
+            let manned_percentage = mine.capacity as f64 / mine.capacity_max as f64;
+            let efficiency = mine.efficiency as f64 * manned_percentage;
+            println!("Human mining {:?} resource {:?} with efficiency {}", mine, resource, efficiency);
+            if efficiency >= resource.amount {
+                resource.amount = 0.00;
+            } else {
+                resource.amount = resource.amount - efficiency;
+            }
         }
     }
 }
@@ -166,11 +176,11 @@ impl<'a> System<'a> for AutomatedMiningSystem {
 
     fn run(&mut self, (entities, mut mine, mut resource): Self::SystemData) {
         for (e, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
-            println!("Automated mining {:?} resource {:?}", mine, resource);
             if resource.resource_type != mine.input_type {break};
-            if resource.amount == 0 {break};
+            if resource.amount == 0.00 {break};
+            println!("Automated mining {:?} resource {:?}", mine, resource);
             if mine.efficiency >= resource.amount {
-                resource.amount = 0;
+                resource.amount = 0.00;
             } else {
                 resource.amount = resource.amount - mine.efficiency;
             }
@@ -207,18 +217,18 @@ pub fn initialize_planet(world: &mut World) {
         })
         .with(Resource {
             resource_type: BORONITE,
-            amount: 300000,
+            amount: 300000.00,
             difficulty: 7,
         })
         .with(Mine {
-            efficiency: 100,
+            efficiency: 100.00,
             input_type: BORONITE,
             output_type: BORONITE,
-            capacity: 0,
+            capacity: 50,
             capacity_max: 100,
         })
         .with(AutomatedMine {
-            efficiency: 100,
+            efficiency: 100.00,
             input_type: BORONITE,
             output_type: BORONITE,
         })
