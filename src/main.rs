@@ -21,8 +21,8 @@ impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
         builder.add(PlanetsSystem, "planets_system", &[]);
         builder.add(PlanetaryGrowth, "planetary_growth_system", &[]);
         builder.add(PlanetaryAtmosphere, "planetary_atmosphere_system", &[]);
-        builder.add(PlanetaryResource, "planetary_resource_system", &[]);
         builder.add(MiningSystem, "mining_system", &[]);
+        builder.add(AutomatedMiningSystem, "automated_mining_system", &[]);
         builder.add(HousingSystem, "housing_system", &[]);
         Ok(())
     }

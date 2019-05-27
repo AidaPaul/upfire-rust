@@ -24,6 +24,7 @@ impl Component for Planet {
     type Storage = NullStorage<Self>;
 }
 
+#[derive(Debug)]
 pub struct Population {
     count: u32,
 }
@@ -32,6 +33,7 @@ impl Component for Population {
     type Storage = FlaggedStorage<Self>;
 }
 
+#[derive(Debug)]
 pub struct Temperature {
     value: f64,
 }
@@ -57,6 +59,7 @@ impl Component for Atmosphere {
     type Storage = VecStorage<Self>;
 }
 
+#[derive(Debug)]
 pub struct Resource {
     resource_type: i8,
     amount: u32,
@@ -67,8 +70,9 @@ impl Component for Resource {
     type Storage = FlaggedStorage<Self>;
 }
 
+#[derive(Debug)]
 pub struct Mine {
-        efficiency: f64,
+        efficiency: u32,
         input_type: i8,
         output_type: i8,
         capacity: u32,
@@ -79,8 +83,9 @@ impl Component for Mine {
     type Storage = DenseVecStorage<Self>;
 }
 
+#[derive(Debug)]
 pub struct AutomatedMine {
-        efficiency: f64,
+        efficiency: u32,
         input_type: i8,
         output_type: i8,
 }
@@ -89,6 +94,7 @@ impl Component for AutomatedMine {
     type Storage = DenseVecStorage<Self>;
 }
 
+#[derive(Debug)]
 pub struct Housing {
         capacity: u32,
         capacity_max: u32,
@@ -107,7 +113,7 @@ impl<'a> System<'a> for PlanetsSystem {
 
     fn run(&mut self, (entities, mut planet): Self::SystemData) {
         for (e, mut planet) in (&*entities, &mut planet).join() {
-            println!("Playing with a planet!")
+
         }
     }
 }
@@ -119,7 +125,7 @@ impl<'a> System<'a> for PlanetaryGrowth {
 
     fn run(&mut self, (entities, mut population): Self::SystemData) {
         for (e, mut population) in (&*entities, &mut population).join() {
-            println!("{}", population.count);
+
         }
     }
 }
@@ -137,23 +143,7 @@ impl<'a> System<'a> for PlanetaryAtmosphere {
         for (e, mut atmosphere, mut temperature) in
             (&*entities, &mut atmosphere, &mut temperature).join()
         {
-            println!("{}", atmosphere.pressure);
-            println!("{}", temperature.value);
-        }
-    }
-}
 
-pub struct PlanetaryResource;
-
-impl<'a> System<'a> for PlanetaryResource {
-    type SystemData = (Entities<'a>, WriteStorage<'a, Resource>);
-
-    fn run(&mut self, (entities, mut resource): Self::SystemData) {
-        for (e, mut resource) in (&*entities, &mut resource).join() {
-            println!(
-                "{}{}{}",
-                resource.resource_type, resource.amount, resource.difficulty
-            );
         }
     }
 }
@@ -161,15 +151,33 @@ impl<'a> System<'a> for PlanetaryResource {
 pub struct MiningSystem;
 
 impl<'a> System<'a> for MiningSystem {
-    type SystemData = (Entities<'a>, WriteStorage<'a, Mine>, 
-    WriteStorage<'a, AutomatedMine>, WriteStorage<'a, Resource>);
+    type SystemData = (Entities<'a>, ReadStorage<'a, Mine>, WriteStorage<'a, Resource>);
 
-    fn run(&mut self, (entities, mut mine, mut automated_mine, mut resource): Self::SystemData) {
-        for (e, mut mine, mut automated_mine, mut resource) in (&*entities, &mut mine, &mut automated_mine, &mut resource).join() {
-            println!("Mining for ores");
+    fn run(&mut self, (entities, mut mine, mut resource): Self::SystemData) {
+        for (e, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
         }
     }
 }
+
+pub struct AutomatedMiningSystem;
+
+impl<'a> System<'a> for AutomatedMiningSystem {
+    type SystemData = (Entities<'a>, ReadStorage<'a, AutomatedMine>, WriteStorage<'a, Resource>);
+
+    fn run(&mut self, (entities, mut mine, mut resource): Self::SystemData) {
+        for (e, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
+            println!("Automated mining {:?} resource {:?}", mine, resource);
+            if resource.resource_type != mine.input_type {break};
+            if resource.amount == 0 {break};
+            if mine.efficiency >= resource.amount {
+                resource.amount = 0;
+            } else {
+                resource.amount = resource.amount - mine.efficiency;
+            }
+        }
+    }
+}
+
 
 pub struct HousingSystem;
 
@@ -178,7 +186,7 @@ impl<'a> System<'a> for HousingSystem {
 
     fn run(&mut self, (entities, mut housing, mut population): Self::SystemData) {
         for (e, mut housing, population) in (&*entities, &mut housing, &population).join() {
-            println!("Sorting the hoomans");
+
         }
     }
 }
@@ -203,14 +211,14 @@ pub fn initialize_planet(world: &mut World) {
             difficulty: 7,
         })
         .with(Mine {
-            efficiency: 100.00,
+            efficiency: 100,
             input_type: BORONITE,
             output_type: BORONITE,
             capacity: 0,
             capacity_max: 100,
         })
         .with(AutomatedMine {
-            efficiency: 100.00,
+            efficiency: 100,
             input_type: BORONITE,
             output_type: BORONITE,
         })
