@@ -9,15 +9,23 @@
             "subcommand": "build",
             "problemMatcher": [
                 "$rustc"
-            ]
-        },
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false,
+            }
+        },   
         {
             "label": "cargo clean",
             "type": "cargo",
             "subcommand": "clean",
             "problemMatcher": [
                 "$rustc"
-            ]
-        }
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false,
+            }
+        },
     ]
 }
