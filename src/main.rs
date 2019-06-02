@@ -3,10 +3,7 @@ mod systems;
 
 use amethyst::Error;
 use amethyst::{
-    core::{
-        bundle::SystemBundle,
-        frame_limiter::FrameRateLimitStrategy,
-    },
+    core::{bundle::SystemBundle, frame_limiter::FrameRateLimitStrategy},
     ecs::DispatcherBuilder,
     prelude::*,
 };
