@@ -141,6 +141,7 @@ impl<'a> System<'a> for PlanetaryAtmosphere {
     }
 }
 
+
 pub struct MiningSystem;
 
 impl<'a> System<'a> for MiningSystem {
@@ -172,6 +173,7 @@ impl<'a> System<'a> for MiningSystem {
         }
     }
 }
+
 
 pub struct AutomatedMiningSystem;
 

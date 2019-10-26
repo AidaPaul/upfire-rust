@@ -1,4 +1,5 @@
 extern crate amethyst;
+
 mod systems;
 
 use amethyst::Error;
@@ -14,7 +15,7 @@ use systems::*;
 struct MyBundle;
 
 impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
-    fn build(self, world: &mut World, builder: &mut DispatcherBuilder<'a, 'b>)-> Result<(), Error> {
+    fn build(self, _world: &mut World, builder: &mut DispatcherBuilder<'a, 'b>) -> Result<(), Error> {
         builder.add(PlanetsSystem, "planets_system", &[]);
         builder.add(PlanetaryGrowth, "planetary_growth_system", &[]);
         builder.add(PlanetaryAtmosphere, "planetary_atmosphere_system", &[]);
