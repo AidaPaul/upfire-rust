@@ -2,7 +2,7 @@ extern crate amethyst;
 use amethyst::ecs::NullStorage;
 use amethyst::ecs::{Component, FlaggedStorage, VecStorage};
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Planet;
 
 impl Component for Planet {
@@ -45,12 +45,12 @@ impl Component for Atmosphere {
 }
 
 #[derive(Debug)]
-pub struct Resource {
-    pub resource_type: i8,
+pub struct Deposit {
+    pub deposit_type: i8,
     pub amount: f64,
     pub difficulty: i8,
 }
 
-impl Component for Resource {
+impl Component for Deposit {
     type Storage = FlaggedStorage<Self>;
 }

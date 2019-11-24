@@ -24,8 +24,8 @@ impl SimpleState for MainGame {
                 },
                 pressure: 1013.25,
             })
-            .with(Resource {
-                resource_type: BORONITE,
+            .with(Deposit {
+                deposit_type: BORONITE,
                 amount: 300_000.00,
                 difficulty: 7,
             })
