@@ -1,6 +1,6 @@
-extern crate amethyst;
+const BORONITE: i8 = 1;
 
-mod systems;
+extern crate amethyst;
 
 use amethyst::Error;
 use amethyst::{
@@ -11,11 +11,25 @@ use amethyst::{
 use core::result::Result;
 use systems::*;
 
+mod components;
+mod states;
+mod systems;
+
+use crate::components::planets::*;
+use crate::components::structures::*;
+use crate::states::main_game::MainGame;
+use crate::systems::mining::{AutomatedMiningSystem, MiningSystem};
+use crate::systems::planets::{HousingSystem, PlanetaryAtmosphere, PlanetaryGrowth, PlanetsSystem};
+
 #[derive(Debug)]
 struct MyBundle;
 
 impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
-    fn build(self, _world: &mut World, builder: &mut DispatcherBuilder<'a, 'b>) -> Result<(), Error> {
+    fn build(
+        self,
+        _world: &mut World,
+        builder: &mut DispatcherBuilder<'a, 'b>,
+    ) -> Result<(), Error> {
         builder.add(PlanetsSystem, "planets_system", &[]);
         builder.add(PlanetaryGrowth, "planetary_growth_system", &[]);
         builder.add(PlanetaryAtmosphere, "planetary_atmosphere_system", &[]);
@@ -26,15 +40,6 @@ impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
     }
 }
 
-struct GameplayState;
-
-impl SimpleState for GameplayState {
-    fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
-        let StateData { world, .. } = data;
-        systems::initialize_planet(world);
-    }
-}
-
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
 
@@ -42,7 +47,7 @@ fn main() -> amethyst::Result<()> {
 
     let game_data = GameDataBuilder::default().with_bundle(MyBundle)?;
 
-    let mut game = Application::build("./", GameplayState)?
+    let mut game = Application::build("./", MainGame)?
         .with_frame_limit(FrameRateLimitStrategy::Sleep, 1)
         .build(game_data)?;
 
