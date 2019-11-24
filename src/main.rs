@@ -1,5 +1,3 @@
-const BORONITE: i8 = 1;
-
 extern crate amethyst;
 
 use amethyst::Error;
