@@ -5,11 +5,10 @@ authors = ["Tymoteusz Paul <puciek@gmail.com>"]
 edition = "2018"
 
 [dependencies.amethyst]
-version = "0.13"
+git = "https://github.com/amethyst/amethyst.git"
 features = ["empty"]
-
 
 [dev-dependencies.cargo-husky]
 version = "1"
 default-features = false # Disable features which are enabled by default
-features = ["precommit-hook", "run-cargo-test", "run-cargo-fmt"]
+features = ["precommit-hook", "run-cargo-test", "run-cargo-fmt", "run-cargo-clippy"]

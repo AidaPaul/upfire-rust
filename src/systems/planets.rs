@@ -1,11 +1,7 @@
 extern crate amethyst;
-use amethyst::ecs::{Component, DenseVecStorage, FlaggedStorage, VecStorage};
-use amethyst::{
-    ecs::{Entities, Join, NullStorage, ReadStorage, System, World, WriteStorage},
-    prelude::*,
-};
+use amethyst::ecs::{Entities, Join, ReadStorage, System, WriteStorage};
 
-use crate::components::planets::{Atmosphere, Planet, Population, Resource, Temperature};
+use crate::components::planets::{Atmosphere, Planet, Population, Temperature};
 use crate::components::structures::Housing;
 
 pub struct PlanetsSystem;
@@ -14,7 +10,7 @@ impl<'a> System<'a> for PlanetsSystem {
     type SystemData = (Entities<'a>, WriteStorage<'a, Planet>);
 
     fn run(&mut self, (entities, mut planet): Self::SystemData) {
-        for (e, mut planet) in (&*entities, &mut planet).join() {}
+        for (_entity, _planet) in (&*entities, &mut planet).join() {}
     }
 }
 
@@ -24,7 +20,7 @@ impl<'a> System<'a> for PlanetaryGrowth {
     type SystemData = (Entities<'a>, WriteStorage<'a, Population>);
 
     fn run(&mut self, (entities, mut population): Self::SystemData) {
-        for (e, mut population) in (&*entities, &mut population).join() {}
+        for (_entity, _population) in (&*entities, &mut population).join() {}
     }
 }
 
@@ -38,7 +34,7 @@ impl<'a> System<'a> for PlanetaryAtmosphere {
     );
 
     fn run(&mut self, (entities, mut atmosphere, mut temperature): Self::SystemData) {
-        for (e, mut atmosphere, mut temperature) in
+        for (_entity, _atmosphere, _temperature) in
             (&*entities, &mut atmosphere, &mut temperature).join()
         {}
     }
@@ -53,7 +49,7 @@ impl<'a> System<'a> for HousingSystem {
         ReadStorage<'a, Population>,
     );
 
-    fn run(&mut self, (entities, mut housing, mut population): Self::SystemData) {
-        for (e, mut housing, population) in (&*entities, &mut housing, &population).join() {}
+    fn run(&mut self, (entities, mut housing, population): Self::SystemData) {
+        for (_entity, _housing, _population) in (&*entities, &mut housing, &population).join() {}
     }
 }

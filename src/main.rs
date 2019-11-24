@@ -7,14 +7,11 @@ use amethyst::{
     prelude::*,
 };
 use core::result::Result;
-use systems::*;
 
 mod components;
 mod states;
 mod systems;
 
-use crate::components::planets::*;
-use crate::components::structures::*;
 use crate::states::main_game::MainGame;
 use crate::systems::mining::{AutomatedMiningSystem, MiningSystem};
 use crate::systems::planets::{HousingSystem, PlanetaryAtmosphere, PlanetaryGrowth, PlanetsSystem};

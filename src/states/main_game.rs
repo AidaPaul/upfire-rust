@@ -1,16 +1,10 @@
 const BORONITE: i8 = 1;
 
 extern crate amethyst;
-use amethyst::ecs::{Component, DenseVecStorage, FlaggedStorage, VecStorage};
-use amethyst::{
-    ecs::{Entities, Join, NullStorage, ReadStorage, System, World, WriteStorage},
-    prelude::*,
-};
+use amethyst::prelude::*;
 
 use crate::components::planets::*;
 use crate::components::structures::*;
-use crate::systems::mining::{AutomatedMiningSystem, MiningSystem};
-use crate::systems::planets::{HousingSystem, PlanetaryAtmosphere, PlanetaryGrowth, PlanetsSystem};
 
 pub struct MainGame;
 
@@ -20,7 +14,7 @@ impl SimpleState for MainGame {
         world
             .create_entity()
             .with(Planet)
-            .with(Population { count: 1000000 })
+            .with(Population { count: 1_000_000 })
             .with(Temperature { value: 14.6 })
             .with(Atmosphere {
                 consistency: Consistency {
@@ -32,7 +26,7 @@ impl SimpleState for MainGame {
             })
             .with(Resource {
                 resource_type: BORONITE,
-                amount: 300000.00,
+                amount: 300_000.00,
                 difficulty: 7,
             })
             .with(Mine {
@@ -48,8 +42,8 @@ impl SimpleState for MainGame {
                 output_type: BORONITE,
             })
             .with(Housing {
-                capacity: 1000000,
-                capacity_max: 2000000,
+                capacity: 1_000_000,
+                capacity_max: 2_000_000,
                 quality: 50,
             })
             .build();

@@ -1,9 +1,5 @@
 extern crate amethyst;
-use amethyst::ecs::{Component, DenseVecStorage, FlaggedStorage, VecStorage};
-use amethyst::{
-    ecs::{Entities, Join, NullStorage, ReadStorage, System, World, WriteStorage},
-    prelude::*,
-};
+use amethyst::ecs::{Component, DenseVecStorage};
 
 #[derive(Debug)]
 pub struct Mine {

@@ -1,9 +1,5 @@
 extern crate amethyst;
-use amethyst::ecs::{Component, DenseVecStorage, FlaggedStorage, VecStorage};
-use amethyst::{
-    ecs::{Entities, Join, NullStorage, ReadStorage, System, World, WriteStorage},
-    prelude::*,
-};
+use amethyst::ecs::{Entities, Join, ReadStorage, System, WriteStorage};
 
 use crate::components::planets::Resource;
 use crate::components::structures::{AutomatedMine, Mine};
@@ -17,8 +13,8 @@ impl<'a> System<'a> for MiningSystem {
         WriteStorage<'a, Resource>,
     );
 
-    fn run(&mut self, (entities, mut mine, mut resource): Self::SystemData) {
-        for (e, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
+    fn run(&mut self, (entities, mine, mut resource): Self::SystemData) {
+        for (_entity, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
             if resource.resource_type != mine.input_type {
                 break;
             };
@@ -34,7 +30,7 @@ impl<'a> System<'a> for MiningSystem {
             if efficiency >= resource.amount {
                 resource.amount = 0.00;
             } else {
-                resource.amount = resource.amount - efficiency;
+                resource.amount -= efficiency;
             }
         }
     }
@@ -49,8 +45,8 @@ impl<'a> System<'a> for AutomatedMiningSystem {
         WriteStorage<'a, Resource>,
     );
 
-    fn run(&mut self, (entities, mut mine, mut resource): Self::SystemData) {
-        for (e, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
+    fn run(&mut self, (entities, mine, mut resource): Self::SystemData) {
+        for (_entity, mine, mut resource) in (&*entities, &mine, &mut resource).join() {
             if resource.resource_type != mine.input_type {
                 break;
             };
@@ -61,7 +57,7 @@ impl<'a> System<'a> for AutomatedMiningSystem {
             if mine.efficiency >= resource.amount {
                 resource.amount = 0.00;
             } else {
-                resource.amount = resource.amount - mine.efficiency;
+                resource.amount -= mine.efficiency;
             }
         }
     }
