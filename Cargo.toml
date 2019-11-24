@@ -6,9 +6,17 @@ edition = "2018"
 
 [dependencies.amethyst]
 git = "https://github.com/amethyst/amethyst.git"
+branch = "master"
 features = ["empty"]
 
 [dev-dependencies.cargo-husky]
 version = "1"
 default-features = false # Disable features which are enabled by default
 features = ["precommit-hook", "run-cargo-test", "run-cargo-fmt", "run-cargo-clippy"]
+
+[dependencies]
+rand = "0.7"
+thread_profiler = "0.3"
+
+[features]
+profiler = ["thread_profiler/thread_profiler", "amethyst/profiler"]
