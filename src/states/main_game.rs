@@ -1,6 +1,5 @@
-const BORONITE: i8 = 1;
-
 extern crate amethyst;
+
 use amethyst::prelude::*;
 
 use crate::components::planets::*;
@@ -11,41 +10,39 @@ pub struct MainGame;
 impl SimpleState for MainGame {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let StateData { world, .. } = data;
-        world
+        let earth_entity = world
             .create_entity()
-            .with(Planet)
-            .with(Population { count: 1_000_000 })
-            .with(Temperature { value: 14.6 })
-            .with(Atmosphere {
-                consistency: Consistency {
-                    oxygen: 18.0,
-                    nitrogen: 81.5,
-                    co2: 0.5,
-                },
-                pressure: 1013.25,
-            })
+            .with(generate_planet("Earth".to_string()))
+            .build();
+        let deposit_entity = world
+            .create_entity()
             .with(Deposit {
-                deposit_type: BORONITE,
-                amount: 300_000.00,
-                difficulty: 7,
-            })
-            .with(Mine {
-                efficiency: 100.00,
-                input_type: BORONITE,
-                output_type: BORONITE,
-                capacity: 50,
-                capacity_max: 100,
-            })
-            .with(AutomatedMine {
-                efficiency: 100.00,
-                input_type: BORONITE,
-                output_type: BORONITE,
-            })
-            .with(Housing {
-                capacity: 1_000_000,
-                capacity_max: 2_000_000,
-                quality: 50,
+                deposit_type: 1,
+                amount: 300_000.0,
+                difficulty: 0,
             })
             .build();
+        world
+            .write_storage::<Planet>()
+            .get_mut(earth_entity)
+            .unwrap()
+            .deposits
+            .push(deposit_entity);
+        let mine_entity = world
+            .create_entity()
+            .with(Mine {
+                efficiency: 100.0,
+                input_type: 1,
+                output_type: 0,
+                capacity: 50,
+                capacity_max: 200,
+            })
+            .build();
+        world
+            .write_storage::<Planet>()
+            .get_mut(earth_entity)
+            .unwrap()
+            .mines
+            .push(mine_entity);
     }
 }
