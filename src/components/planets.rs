@@ -1,7 +1,6 @@
 extern crate amethyst;
 use amethyst::ecs::NullStorage;
 use amethyst::ecs::{Component, Entity, FlaggedStorage, VecStorage};
-use amethyst::prelude::*;
 
 pub fn generate_planet(label: String) -> Planet {
     Planet {

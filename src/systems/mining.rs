@@ -9,8 +9,8 @@ pub struct MiningSystem;
 impl<'a> System<'a> for MiningSystem {
     type SystemData = (ReadStorage<'a, Mine>, WriteStorage<'a, Deposit>);
 
-    fn run(&mut self, (mine, mut deposit): Self::SystemData) {
-        for (mine, mut deposit) in (&mine, &mut deposit).join() {
+    fn run(&mut self, (mine, deposit): Self::SystemData) {
+        for (mine, deposit) in (&mine, &deposit).join() {
             println!("{:?}{:?}", mine, deposit);
         }
     }
