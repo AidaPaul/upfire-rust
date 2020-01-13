@@ -1,44 +1,45 @@
 extern crate amethyst;
-use amethyst::ecs::{Entities, Join, ReadStorage, System, WriteStorage};
 
-use crate::components::planets::Deposit;
-use crate::components::structures::{AutomatedMine, Mine};
+use amethyst::ecs::{Join, System, WriteStorage};
+
+use crate::components::planets::*;
 
 pub struct MiningSystem;
 
 impl<'a> System<'a> for MiningSystem {
-    type SystemData = (ReadStorage<'a, Mine>, WriteStorage<'a, Deposit>);
+    type SystemData = (WriteStorage<'a, Mines>, WriteStorage<'a, Deposits>);
 
-    fn run(&mut self, (mine, deposit): Self::SystemData) {
-        for (mine, deposit) in (&mine, &deposit).join() {
-            println!("{:?}{:?}", mine, deposit);
+    fn run(&mut self, (mut mines, mut deposits): Self::SystemData) {
+        for (mines, deposits) in (&mut mines, &mut deposits).join() {
+            for deposit in deposits.natural.iter_mut() {
+                if deposit.amount == 0 {
+                    info!("Deposit {:?} is empty, skipping", deposit);
+                    continue;
+                }
+                for mine in mines.manned.iter_mut() {
+                    if mine.capacity == mine.capacity_max {
+                        info!("Mine {:?} is full, skipping", mine);
+                        continue;
+                    }
+                    mine.mine(deposit);
+                    if deposit.amount == 0 {
+                        break;
+                    }
+                }
+            }
         }
     }
 }
 
-pub struct AutomatedMiningSystem;
+pub struct EmptyDepositRemovalSystem;
 
-impl<'a> System<'a> for AutomatedMiningSystem {
-    type SystemData = (
-        Entities<'a>,
-        ReadStorage<'a, AutomatedMine>,
-        WriteStorage<'a, Deposit>,
-    );
+impl<'a> System<'a> for EmptyDepositRemovalSystem {
+    type SystemData = WriteStorage<'a, Deposits>;
 
-    fn run(&mut self, (entities, mine, mut deposit): Self::SystemData) {
-        for (_entity, mine, mut deposit) in (&*entities, &mine, &mut deposit).join() {
-            if deposit.deposit_type != mine.input_type {
-                break;
-            };
-            if deposit.amount == 0.00 {
-                break;
-            };
-            println!("Automated mining {:?} deposit {:?}", mine, deposit);
-            if mine.efficiency >= deposit.amount {
-                deposit.amount = 0.00;
-            } else {
-                deposit.amount -= mine.efficiency;
-            }
+    fn run(&mut self, mut data: Self::SystemData) {
+        for deposits in (&mut data).join() {
+            info!("{:?}", deposits);
+            deposits.natural.retain(|x| x.amount > 0);
         }
     }
 }

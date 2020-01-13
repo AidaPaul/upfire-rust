@@ -1,27 +1,7 @@
 extern crate amethyst;
-use amethyst::ecs::NullStorage;
-use amethyst::ecs::{Component, Entity, FlaggedStorage, VecStorage};
 
-pub fn generate_planet(label: String) -> Planet {
-    Planet {
-        label,
-        atmosphere: Default::default(),
-        deposits: vec![],
-        mines: vec![],
-    }
-}
-
-#[derive(Default, Debug)]
-pub struct Planet {
-    pub label: String,
-    pub atmosphere: Atmosphere,
-    pub deposits: Vec<Entity>,
-    pub mines: Vec<Entity>,
-}
-
-impl Component for Planet {
-    type Storage = FlaggedStorage<Self>;
-}
+use crate::components::structures::Manned;
+use amethyst::ecs::{Component, FlaggedStorage, NullStorage, VecStorage};
 
 #[derive(Default, Debug)]
 pub struct MineableTag;
@@ -68,10 +48,24 @@ impl Component for Atmosphere {
 #[derive(Default, Debug)]
 pub struct Deposit {
     pub deposit_type: i8,
-    pub amount: f64,
+    pub amount: u64,
     pub difficulty: i8,
 }
 
-impl Component for Deposit {
+#[derive(Default, Debug)]
+pub struct Deposits {
+    pub natural: Vec<Deposit>,
+}
+
+impl Component for Deposits {
+    type Storage = VecStorage<Self>;
+}
+
+#[derive(Default, Debug)]
+pub struct Mines {
+    pub manned: Vec<Manned>,
+}
+
+impl Component for Mines {
     type Storage = VecStorage<Self>;
 }

@@ -1,4 +1,8 @@
 extern crate amethyst;
+#[macro_use]
+extern crate log;
+
+use core::result::Result;
 
 use amethyst::Error;
 use amethyst::{
@@ -6,15 +10,13 @@ use amethyst::{
     ecs::DispatcherBuilder,
     prelude::*,
 };
-use core::result::Result;
+
+use crate::states::main_game::MainGame;
+use crate::systems::mining::{EmptyDepositRemovalSystem, MiningSystem};
 
 mod components;
 mod states;
 mod systems;
-
-use crate::states::main_game::MainGame;
-use crate::systems::mining::{AutomatedMiningSystem, MiningSystem};
-use crate::systems::planets::{HousingSystem, PlanetaryAtmosphere, PlanetaryGrowth, PlanetsSystem};
 
 #[derive(Debug)]
 struct MyBundle;
@@ -25,12 +27,12 @@ impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
         _world: &mut World,
         builder: &mut DispatcherBuilder<'a, 'b>,
     ) -> Result<(), Error> {
-        builder.add(PlanetsSystem, "planets_system", &[]);
-        builder.add(PlanetaryGrowth, "planetary_growth_system", &[]);
-        builder.add(PlanetaryAtmosphere, "planetary_atmosphere_system", &[]);
         builder.add(MiningSystem, "mining_system", &[]);
-        builder.add(AutomatedMiningSystem, "automated_mining_system", &[]);
-        builder.add(HousingSystem, "housing_system", &[]);
+        builder.add(
+            EmptyDepositRemovalSystem,
+            "empty_deposit_removal_system",
+            &[],
+        );
         Ok(())
     }
 }
