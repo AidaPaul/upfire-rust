@@ -1,7 +1,7 @@
 extern crate amethyst;
 
 use crate::components::structures::Manned;
-use amethyst::ecs::{Component, FlaggedStorage, NullStorage, VecStorage};
+use amethyst::ecs::{Component, DenseVecStorage, FlaggedStorage, NullStorage, VecStorage};
 
 #[derive(Default, Debug)]
 pub struct MineableTag;
@@ -68,4 +68,26 @@ pub struct Mines {
 
 impl Component for Mines {
     type Storage = VecStorage<Self>;
+}
+
+#[derive(Default, Debug)]
+pub struct Position {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+}
+
+impl Component for Position {
+    type Storage = DenseVecStorage<Self>;
+}
+
+#[derive(Default, Debug)]
+pub struct Velocity {
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+}
+
+impl Component for Velocity {
+    type Storage = DenseVecStorage<Self>;
 }

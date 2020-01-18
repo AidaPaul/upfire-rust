@@ -13,6 +13,7 @@ use amethyst::{
 
 use crate::states::main_game::MainGame;
 use crate::systems::mining::{EmptyDepositRemovalSystem, MiningSystem};
+use crate::systems::movement::*;
 
 mod components;
 mod states;
@@ -28,6 +29,7 @@ impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
         builder: &mut DispatcherBuilder<'a, 'b>,
     ) -> Result<(), Error> {
         builder.add(MiningSystem, "mining_system", &[]);
+        builder.add(MovementSystem, "movement_system", &[]);
         builder.add(
             EmptyDepositRemovalSystem,
             "empty_deposit_removal_system",

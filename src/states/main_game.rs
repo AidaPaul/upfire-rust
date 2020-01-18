@@ -37,6 +37,16 @@ impl SimpleState for MainGame {
                     },
                 ],
             })
+            .with(Position {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+            })
+            .with(Velocity {
+                x: 1.0,
+                y: -1.0,
+                z: 0.0,
+            })
             .build();
     }
 }
