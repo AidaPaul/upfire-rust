@@ -1,0 +1,4 @@
+(
+    title: "Upfire",
+    dimensions: Some((500, 500)),
+)

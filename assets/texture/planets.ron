@@ -1,0 +1,167 @@
+//
+//  Sprite sheet data for Amethyst Game Engine: https://www.amethyst.rs
+//  This file was created by TexturePacker: https://www.codeandweb.com/texturepacker
+//
+//  $TexturePacker:SmartUpdate:8a720521bb7be38596d9a0cf180e92c1:98a933e2b78df36b03b802e5da283a89:9d7dfbf90e4447098065f419c2816ff4$
+//
+
+#![enable(implicit_some)]
+(
+    texture_width: 1885,
+    texture_height: 1987,
+    sprites: [
+        (
+            // 0: moon_01.png
+            x: 0,
+            y: 0,
+            width: 64,
+            height: 64,
+            offsets: (0, 0),
+        ),
+        (
+            // 1: moon_02.png
+            x: 64,
+            y: 0,
+            width: 96,
+            height: 96,
+            offsets: (0, 0),
+        ),
+        (
+            // 2: moon_03.png
+            x: 160,
+            y: 0,
+            width: 112,
+            height: 112,
+            offsets: (0, 0),
+        ),
+        (
+            // 3: moon_04.png
+            x: 272,
+            y: 0,
+            width: 128,
+            height: 128,
+            offsets: (0, 0),
+        ),
+        (
+            // 4: planet_01.png
+            x: 400,
+            y: 0,
+            width: 500,
+            height: 487,
+            offsets: (0, 0),
+        ),
+        (
+            // 5: planet_02.png
+            x: 900,
+            y: 0,
+            width: 450,
+            height: 450,
+            offsets: (0, 0),
+        ),
+        (
+            // 6: planet_03.png
+            x: 1350,
+            y: 0,
+            width: 460,
+            height: 460,
+            offsets: (0, 0),
+        ),
+        (
+            // 7: planet_04.png
+            x: 0,
+            y: 487,
+            width: 480,
+            height: 480,
+            offsets: (0, 0),
+        ),
+        (
+            // 8: planet_05.png
+            x: 480,
+            y: 487,
+            width: 500,
+            height: 500,
+            offsets: (0, 0),
+        ),
+        (
+            // 9: planet_06.png
+            x: 980,
+            y: 487,
+            width: 455,
+            height: 455,
+            offsets: (0, 0),
+        ),
+        (
+            // 10: planet_07.png
+            x: 1435,
+            y: 487,
+            width: 450,
+            height: 450,
+            offsets: (0, 0),
+        ),
+        (
+            // 11: planet_08.png
+            x: 0,
+            y: 987,
+            width: 500,
+            height: 500,
+            offsets: (0, 0),
+        ),
+        (
+            // 12: planet_10.png
+            x: 500,
+            y: 987,
+            width: 475,
+            height: 475,
+            offsets: (0, 0),
+        ),
+        (
+            // 13: planet_11.png
+            x: 975,
+            y: 987,
+            width: 445,
+            height: 445,
+            offsets: (0, 0),
+        ),
+        (
+            // 14: planet_12.png
+            x: 1420,
+            y: 987,
+            width: 450,
+            height: 450,
+            offsets: (0, 0),
+        ),
+        (
+            // 15: planet_13.png
+            x: 0,
+            y: 1487,
+            width: 450,
+            height: 450,
+            offsets: (0, 0),
+        ),
+        (
+            // 16: planet_14.png
+            x: 450,
+            y: 1487,
+            width: 475,
+            height: 475,
+            offsets: (0, 0),
+        ),
+        (
+            // 17: planet_15.png
+            x: 925,
+            y: 1487,
+            width: 460,
+            height: 460,
+            offsets: (0, 0),
+        ),
+        (
+            // 18: planet_16.png
+            x: 1385,
+            y: 1487,
+            width: 500,
+            height: 500,
+            offsets: (0, 0),
+        )
+    ]
+)
+
