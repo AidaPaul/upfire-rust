@@ -40,13 +40,10 @@ impl SimpleState for MainGame {
             .with(Position {
                 x: 0.0,
                 y: 0.0,
-                z: 0.0,
+                r: 5.0,
+                angle: 0.0,
             })
-            .with(Velocity {
-                x: 1.0,
-                y: -1.0,
-                z: 0.0,
-            })
+            .with(Velocity { angle: 0.1 })
             .build();
     }
 }

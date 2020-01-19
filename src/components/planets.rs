@@ -72,9 +72,10 @@ impl Component for Mines {
 
 #[derive(Default, Debug)]
 pub struct Position {
-    pub x: f64,
-    pub y: f64,
-    pub z: f64,
+    pub x: f32,
+    pub y: f32,
+    pub r: f32,
+    pub angle: f32,
 }
 
 impl Component for Position {
@@ -83,9 +84,7 @@ impl Component for Position {
 
 #[derive(Default, Debug)]
 pub struct Velocity {
-    pub x: f64,
-    pub y: f64,
-    pub z: f64,
+    pub angle: f32,
 }
 
 impl Component for Velocity {

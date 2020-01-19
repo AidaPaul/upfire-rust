@@ -29,7 +29,7 @@ impl<'a, 'b> SystemBundle<'a, 'b> for MyBundle {
         builder: &mut DispatcherBuilder<'a, 'b>,
     ) -> Result<(), Error> {
         builder.add(MiningSystem, "mining_system", &[]);
-        builder.add(MovementSystem, "movement_system", &[]);
+        builder.add(OrbitalMovementSystem, "orbital_movement_system", &[]);
         builder.add(
             EmptyDepositRemovalSystem,
             "empty_deposit_removal_system",

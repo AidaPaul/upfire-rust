@@ -18,7 +18,7 @@ impl Component for Manned {
 
 impl Manned {
     pub fn mine(&mut self, mut deposit: &mut Deposit) {
-        info!("mine: {:?} mining: {:?}", self, deposit);
+        debug!("mine: {:?} mining: {:?}", self, deposit);
         let diff_amount;
         if deposit.amount >= self.efficiency {
             diff_amount = deposit.amount - self.efficiency;

@@ -13,12 +13,12 @@ impl<'a> System<'a> for MiningSystem {
         for (mines, deposits) in (&mut mines, &mut deposits).join() {
             for deposit in deposits.natural.iter_mut() {
                 if deposit.amount == 0 {
-                    info!("Deposit {:?} is empty, skipping", deposit);
+                    debug!("Deposit {:?} is empty, skipping", deposit);
                     continue;
                 }
                 for mine in mines.manned.iter_mut() {
                     if mine.capacity == mine.capacity_max {
-                        info!("Mine {:?} is full, skipping", mine);
+                        debug!("Mine {:?} is full, skipping", mine);
                         continue;
                     }
                     mine.mine(deposit);
@@ -38,7 +38,7 @@ impl<'a> System<'a> for EmptyDepositRemovalSystem {
 
     fn run(&mut self, mut data: Self::SystemData) {
         for deposits in (&mut data).join() {
-            info!("{:?}", deposits);
+            debug!("{:?}", deposits);
             deposits.natural.retain(|x| x.amount > 0);
         }
     }
