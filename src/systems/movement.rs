@@ -19,7 +19,7 @@ impl<'a> System<'a> for OrbitalMovementSystem {
         {
             position.x = 0.0 + position.angle.cos() * position.r;
             position.y = 0.0 + position.angle.sin() * position.r;
-            info!("({}, {})", position.x, position.y);
+            debug!("({}, {})", position.x, position.y);
             transform.set_translation_x(position.x);
             transform.set_translation_y(position.y);
             position.angle -= velocity.angle;
