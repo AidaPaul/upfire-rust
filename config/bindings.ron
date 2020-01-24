@@ -1,0 +1,6 @@
+(
+  axes: {
+    "time_scale": Emulated(pos: Key(Up), neg: Key(Down)),
+  },
+  actions: {},
+)

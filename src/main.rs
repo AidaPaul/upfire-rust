@@ -10,7 +10,7 @@ use amethyst::Error;
 use amethyst::{
     core::{bundle::SystemBundle, frame_limiter::FrameRateLimitStrategy},
     ecs::DispatcherBuilder,
-    input::StringBindings,
+    input::{InputBundle, StringBindings},
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
@@ -49,6 +49,7 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PlanetaryBundle {
             &[],
         );
         builder.add(UpdateOverlay, "update_overlay", &[]);
+        builder.add(ControlTimeScale, "control_time_scale", &[]);
         Ok(())
     }
 }
@@ -57,6 +58,10 @@ fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
     let app_root = application_root_dir()?;
     let display_config_path = app_root.join("config").join("display.ron");
+    let binding_path = app_root.join("config").join("bindings.ron");
+
+    let input_bundle =
+        InputBundle::<StringBindings>::new().with_bindings_from_file(binding_path)?;
 
     let _world = World::new();
     let game_data = GameDataBuilder::default()
@@ -71,11 +76,12 @@ fn main() -> amethyst::Result<()> {
                 .with_plugin(RenderFlat2D::default()),
         )?
         .with_bundle(TransformBundle::new())?
+        .with_bundle(input_bundle)?
         .with_bundle(UiBundle::<StringBindings>::new())?;
     let assets_dir = app_root.join("assets");
 
     let mut game = Application::build(assets_dir, MainGame)?
-        .with_frame_limit(FrameRateLimitStrategy::Sleep, 30)
+        .with_frame_limit(FrameRateLimitStrategy::Sleep, 60)
         .build(game_data)?;
 
     game.run();
