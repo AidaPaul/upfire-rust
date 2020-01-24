@@ -143,7 +143,7 @@ fn initialize_solar_system(world: &mut World, sprite_sheet: Handle<SpriteSheet>)
     let mut earth_transform = Transform::default();
 
     earth_transform.set_translation_xyz(-50.0, -50.0, 0.0);
-    earth_transform.set_scale(Vector3::new(0.1, 0.1, 0.1));
+    earth_transform.set_scale(Vector3::new(0.15, 0.15, 0.1));
 
     let _earth_entity = world
         .create_entity()
@@ -175,7 +175,7 @@ fn initialize_solar_system(world: &mut World, sprite_sheet: Handle<SpriteSheet>)
         .with(Position {
             x: 0.0,
             y: 0.0,
-            r: 100.0,
+            r: 200.0,
             angle: 0.0,
         })
         .with(sprite_render)
