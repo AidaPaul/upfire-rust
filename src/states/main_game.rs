@@ -62,25 +62,25 @@ fn initialize_solar_system(world: &mut World, sprite_sheet: Handle<SpriteSheet>)
         .with(Deposits {
             natural: vec![Deposit {
                 deposit_type: 1,
-                amount: 15,
+                amount: 15.0,
                 difficulty: 0,
             }],
         })
         .with(Mines {
             manned: vec![
                 Manned {
-                    efficiency: 2,
+                    efficiency: 2.0,
                     input_type: 1,
                     output_type: 11,
-                    capacity: 0,
-                    capacity_max: 100,
+                    capacity: 0.0,
+                    capacity_max: 100.0,
                 },
                 Manned {
-                    efficiency: 2,
+                    efficiency: 2.0,
                     input_type: 1,
                     output_type: 11,
-                    capacity: 0,
-                    capacity_max: 100,
+                    capacity: 0.0,
+                    capacity_max: 100.0,
                 },
             ],
         })

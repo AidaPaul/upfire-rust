@@ -48,7 +48,7 @@ impl Component for Atmosphere {
 #[derive(Default, Debug)]
 pub struct Deposit {
     pub deposit_type: i8,
-    pub amount: u64,
+    pub amount: f32,
     pub difficulty: i8,
 }
 
