@@ -5,10 +5,12 @@ extern crate log;
 use core::result::Result;
 
 use amethyst::core::transform::TransformBundle;
+use amethyst::ui::{RenderUi, UiBundle};
 use amethyst::Error;
 use amethyst::{
     core::{bundle::SystemBundle, frame_limiter::FrameRateLimitStrategy},
     ecs::DispatcherBuilder,
+    input::StringBindings,
     prelude::*,
     renderer::{
         plugins::{RenderFlat2D, RenderToWindow},
@@ -26,8 +28,8 @@ mod components;
 mod states;
 mod systems;
 
-pub const ARENA_HEIGHT: f32 = 500.0;
-pub const ARENA_WIDTH: f32 = 500.0;
+pub const ARENA_HEIGHT: f32 = 1024.0;
+pub const ARENA_WIDTH: f32 = 1024.0;
 
 #[derive(Debug)]
 struct PlanetaryBundle;
@@ -63,13 +65,15 @@ fn main() -> amethyst::Result<()> {
                     RenderToWindow::from_config_path(display_config_path)
                         .with_clear([0.0, 0.0, 0.0, 1.0]),
                 )
+                .with_plugin(RenderUi::default())
                 .with_plugin(RenderFlat2D::default()),
         )?
-        .with_bundle(TransformBundle::new())?;
+        .with_bundle(TransformBundle::new())?
+        .with_bundle(UiBundle::<StringBindings>::new())?;
     let assets_dir = app_root.join("assets");
 
     let mut game = Application::build(assets_dir, MainGame)?
-        .with_frame_limit(FrameRateLimitStrategy::Sleep, 5)
+        .with_frame_limit(FrameRateLimitStrategy::Sleep, 30)
         .build(game_data)?;
 
     game.run();
