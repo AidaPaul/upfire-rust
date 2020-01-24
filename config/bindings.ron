@@ -2,5 +2,7 @@
   axes: {
     "time_scale": Emulated(pos: Key(Up), neg: Key(Down)),
   },
-  actions: {},
+  actions: {
+    "pause": [[Key(Space)]],
+  },
 )

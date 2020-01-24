@@ -42,5 +42,8 @@ impl<'s> System<'s> for ControlTimeScale {
             };
             time.set_time_scale(new_scale);
         }
+        if input.action_is_down("pause").unwrap_or(false) {
+            time.set_time_scale(0.0);
+        }
     }
 }
