@@ -50,9 +50,19 @@ fn initialise_debug_overlay(world: &mut World) {
         Anchor::TopLeft,
         Anchor::TopLeft,
         0.,
-        -18.,
+        -20.,
         1.,
-        50.,
+        100.,
+        14.,
+    );
+    let time_scale_transform = UiTransform::new(
+        "time_scale".to_string(),
+        Anchor::TopLeft,
+        Anchor::TopLeft,
+        0.,
+        -40.,
+        1.,
+        30.,
         14.,
     );
 
@@ -61,7 +71,7 @@ fn initialise_debug_overlay(world: &mut World) {
         .with(looking_at_transform)
         .with(UiText::new(
             font.clone(),
-            "Earth".to_string(),
+            "Sol".to_string(),
             [1., 1., 1., 1.],
             14.,
         ))
@@ -70,12 +80,24 @@ fn initialise_debug_overlay(world: &mut World) {
     let delta_time = world
         .create_entity()
         .with(delta_time_transform)
+        .with(UiText::new(
+            font.clone(),
+            "0.0".to_string(),
+            [1., 1., 1., 1.],
+            14.,
+        ))
+        .build();
+
+    let time_scale = world
+        .create_entity()
+        .with(time_scale_transform)
         .with(UiText::new(font, "0 ms".to_string(), [1., 1., 1., 1.], 14.))
         .build();
 
     world.insert(DebugOverlayText {
         looking_at,
         delta_time,
+        time_scale,
     })
 }
 

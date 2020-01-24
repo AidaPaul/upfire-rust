@@ -23,6 +23,7 @@ use amethyst::{
 use crate::states::main_game::MainGame;
 use crate::systems::mining::{EmptyDepositRemovalSystem, MiningSystem};
 use crate::systems::movement::*;
+use crate::systems::overlay::*;
 
 mod components;
 mod states;
@@ -47,6 +48,7 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PlanetaryBundle {
             "empty_deposit_removal_system",
             &[],
         );
+        builder.add(UpdateOverlay, "update_overlay", &[]);
         Ok(())
     }
 }
