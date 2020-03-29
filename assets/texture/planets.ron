@@ -6,7 +6,7 @@
 //
 
 #![enable(implicit_some)]
-(
+List((
     texture_width: 1885,
     texture_height: 1987,
     sprites: [
@@ -163,5 +163,5 @@
             offsets: (0, 0),
         )
     ]
-)
+))
 

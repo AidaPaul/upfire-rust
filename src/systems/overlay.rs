@@ -1,7 +1,11 @@
 extern crate amethyst;
-use amethyst::core::Time;
-use amethyst::input::{InputHandler, StringBindings};
-use amethyst::{ecs::prelude::*, ui::UiText};
+use amethyst::{
+    core::Time,
+    ecs::prelude::*,
+    input::{InputHandler, StringBindings},
+    renderer::{debug_drawing::DebugLines, palette::Srgba},
+    ui::UiText,
+};
 
 use crate::components::overlay::*;
 
@@ -45,5 +49,21 @@ impl<'s> System<'s> for ControlTimeScale {
         if input.action_is_down("pause").unwrap_or(false) {
             time.set_time_scale(0.0);
         }
+    }
+}
+
+pub struct DebugLinesSystem;
+
+impl<'s> System<'s> for DebugLinesSystem {
+    type SystemData = (Write<'s, DebugLines>, Read<'s, Time>);
+
+    fn run(&mut self, (mut debug_lines_resource, time): Self::SystemData) {
+        let t = (time.absolute_time_seconds() as f32).cos();
+
+        debug_lines_resource.draw_direction(
+            [t, 0.0, 0.5].into(),
+            [0.0, 200.0, 0.0].into(),
+            Srgba::new(0.5, 0.05, 0.65, 1.0),
+        );
     }
 }

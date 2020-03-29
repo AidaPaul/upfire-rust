@@ -13,7 +13,7 @@ use amethyst::{
     input::{InputBundle, StringBindings},
     prelude::*,
     renderer::{
-        plugins::{RenderFlat2D, RenderToWindow},
+        plugins::{RenderDebugLines, RenderFlat2D, RenderToWindow},
         types::DefaultBackend,
         RenderingBundle,
     },
@@ -50,6 +50,7 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PlanetaryBundle {
         );
         builder.add(UpdateOverlay, "update_overlay", &[]);
         builder.add(ControlTimeScale, "control_time_scale", &[]);
+        builder.add(DebugLinesSystem, "debug_lines_system", &[]);
         Ok(())
     }
 }
@@ -69,9 +70,10 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
-                    RenderToWindow::from_config_path(display_config_path)
+                    RenderToWindow::from_config_path(display_config_path)?
                         .with_clear([0.0, 0.0, 0.0, 1.0]),
                 )
+                .with_plugin(RenderDebugLines::default())
                 .with_plugin(RenderUi::default())
                 .with_plugin(RenderFlat2D::default()),
         )?

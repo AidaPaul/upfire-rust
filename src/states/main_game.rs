@@ -1,10 +1,14 @@
 extern crate amethyst;
 
-use amethyst::prelude::*;
-
 use crate::components::overlay::*;
 use crate::components::planets::*;
 use crate::components::structures::*;
+
+use amethyst::{
+    ecs::prelude::*,
+    prelude::*,
+    renderer::{debug_drawing::DebugLinesComponent, palette::Srgba},
+};
 
 use crate::{ARENA_HEIGHT, ARENA_WIDTH};
 use amethyst::{
@@ -25,7 +29,18 @@ impl SimpleState for MainGame {
         initialise_camera(world);
         initialize_solar_system(world, sprite_sheet_handle);
         initialise_debug_overlay(world);
+        initialise_debug_lines(world);
     }
+}
+
+fn initialise_debug_lines(world: &mut World) {
+    let mut debug_lines_component = DebugLinesComponent::with_capacity(100);
+    debug_lines_component.add_direction(
+        [-200.0, 0.0, 0.0].into(),
+        [400.0, 0.0, 0.0].into(),
+        Srgba::new(1.0, 1.0, 1.0, 1.0),
+    );
+    world.create_entity().with(debug_lines_component).build();
 }
 
 fn initialise_debug_overlay(world: &mut World) {
