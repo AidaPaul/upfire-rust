@@ -20,7 +20,7 @@ use amethyst::{
     utils::application_root_dir,
 };
 
-use crate::states::main_game::MainGame;
+use crate::states::main_game::{MainGame, MainGameGraphics};
 use crate::systems::mining::{EmptyDepositRemovalSystem, MiningSystem};
 use crate::systems::movement::*;
 use crate::systems::overlay::*;
@@ -48,6 +48,19 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PlanetaryBundle {
             "empty_deposit_removal_system",
             &[],
         );
+        Ok(())
+    }
+}
+
+#[derive(Debug)]
+struct GraphicsBundle;
+
+impl<'a, 'b> SystemBundle<'a, 'b> for GraphicsBundle {
+    fn build(
+        self,
+        _world: &mut World,
+        builder: &mut DispatcherBuilder<'a, 'b>,
+    ) -> Result<(), Error> {
         builder.add(UpdateOverlay, "update_overlay", &[]);
         builder.add(ControlTimeScale, "control_time_scale", &[]);
         builder.add(DebugLinesSystem, "debug_lines_system", &[]);
@@ -57,34 +70,48 @@ impl<'a, 'b> SystemBundle<'a, 'b> for PlanetaryBundle {
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
+
+    let _render_graphics = true;
+    #[cfg(feature = "empty")]
+    let _render_graphics = false;
+
     let app_root = application_root_dir()?;
-    let display_config_path = app_root.join("config").join("display.ron");
-    let binding_path = app_root.join("config").join("bindings.ron");
-
-    let input_bundle =
-        InputBundle::<StringBindings>::new().with_bindings_from_file(binding_path)?;
-
-    let _world = World::new();
-    let game_data = GameDataBuilder::default()
-        .with_bundle(PlanetaryBundle)?
-        .with_bundle(
-            RenderingBundle::<DefaultBackend>::new()
-                .with_plugin(
-                    RenderToWindow::from_config_path(display_config_path)?
-                        .with_clear([0.0, 0.0, 0.0, 1.0]),
-                )
-                .with_plugin(RenderDebugLines::default())
-                .with_plugin(RenderUi::default())
-                .with_plugin(RenderFlat2D::default()),
-        )?
-        .with_bundle(TransformBundle::new())?
-        .with_bundle(input_bundle)?
-        .with_bundle(UiBundle::<StringBindings>::new())?;
     let assets_dir = app_root.join("assets");
 
-    let mut game = Application::build(assets_dir, MainGame)?
-        .with_frame_limit(FrameRateLimitStrategy::Sleep, 60)
-        .build(game_data)?;
+    let _world = World::new();
+    let mut game_data = GameDataBuilder::default().with_bundle(PlanetaryBundle)?;
+    let mut game: CoreApplication<GameData>;
+
+    if _render_graphics {
+        let display_config_path = app_root.join("config").join("display.ron");
+        let binding_path = app_root.join("config").join("bindings.ron");
+
+        let input_bundle =
+            InputBundle::<StringBindings>::new().with_bindings_from_file(binding_path)?;
+
+        game_data = game_data
+            .with_bundle(
+                RenderingBundle::<DefaultBackend>::new()
+                    .with_plugin(
+                        RenderToWindow::from_config_path(display_config_path)?
+                            .with_clear([0.0, 0.0, 0.0, 1.0]),
+                    )
+                    .with_plugin(RenderDebugLines::default())
+                    .with_plugin(RenderUi::default())
+                    .with_plugin(RenderFlat2D::default()),
+            )?
+            .with_bundle(TransformBundle::new())?
+            .with_bundle(input_bundle)?
+            .with_bundle(UiBundle::<StringBindings>::new())?;
+
+        game = Application::build(assets_dir, MainGameGraphics)?
+            .with_frame_limit(FrameRateLimitStrategy::Sleep, 60)
+            .build(game_data)?;
+    } else {
+        game = Application::build(assets_dir, MainGame)?
+            .with_frame_limit(FrameRateLimitStrategy::Sleep, 1)
+            .build(game_data)?;
+    }
 
     game.run();
     Ok(())

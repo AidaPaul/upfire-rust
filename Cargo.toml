@@ -13,7 +13,6 @@ serde = "1.0"
 [dependencies.amethyst]
 git = "https://github.com/amethyst/amethyst.git"
 branch = "master"
-features = ["vulkan"]
 
 [dev-dependencies.cargo-husky]
 version = "1"
@@ -21,4 +20,8 @@ default-features = false # Disable features which are enabled by default
 features = ["precommit-hook", "run-cargo-test", "run-cargo-fmt", "run-cargo-clippy"]
 
 [features]
+default = ["vulkan"]
 profiler = ["thread_profiler/thread_profiler", "amethyst/profiler"]
+empty = ["amethyst/empty"]
+metal = ["amethyst/metal"]
+vulkan = ["amethyst/vulkan"]

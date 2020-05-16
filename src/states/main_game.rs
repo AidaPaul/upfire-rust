@@ -24,10 +24,18 @@ pub struct MainGame;
 impl SimpleState for MainGame {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let StateData { world, .. } = data;
-        let sprite_sheet_handle = load_sprite_sheet(world);
+        initialize_solar_system(world);
+    }
+}
 
+pub struct MainGameGraphics;
+
+impl SimpleState for MainGameGraphics {
+    fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
+        let StateData { world, .. } = data;
+        let sprite_sheet_handle = load_sprite_sheet(world);
         initialise_camera(world);
-        initialize_solar_system(world, sprite_sheet_handle);
+        initialize_solar_system_graphics(world, sprite_sheet_handle);
         initialise_debug_overlay(world);
         initialise_debug_lines(world);
     }
@@ -149,7 +157,7 @@ fn load_sprite_sheet(world: &mut World) -> Handle<SpriteSheet> {
     )
 }
 
-fn initialize_solar_system(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
+fn initialize_solar_system_graphics(world: &mut World, sprite_sheet: Handle<SpriteSheet>) {
     let sprite_render = SpriteRender {
         sprite_sheet,
         sprite_number: 4,
@@ -195,6 +203,44 @@ fn initialize_solar_system(world: &mut World, sprite_sheet: Handle<SpriteSheet>)
         })
         .with(sprite_render)
         .with(earth_transform)
+        .with(Velocity { angle: 0.2 })
+        .build();
+}
+
+fn initialize_solar_system(world: &mut World) {
+    let _earth_entity = world
+        .create_entity()
+        .with(Deposits {
+            natural: vec![Deposit {
+                deposit_type: 1,
+                amount: 15.0,
+                difficulty: 0,
+            }],
+        })
+        .with(Mines {
+            manned: vec![
+                Manned {
+                    efficiency: 2.0,
+                    input_type: 1,
+                    output_type: 11,
+                    capacity: 0.0,
+                    capacity_max: 100.0,
+                },
+                Manned {
+                    efficiency: 2.0,
+                    input_type: 1,
+                    output_type: 11,
+                    capacity: 0.0,
+                    capacity_max: 100.0,
+                },
+            ],
+        })
+        .with(Position {
+            x: 0.0,
+            y: 0.0,
+            r: 200.0,
+            angle: 0.0,
+        })
         .with(Velocity { angle: 0.2 })
         .build();
 }
